@@ -2,261 +2,186 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SleepAI - AI Sleep Story Generator</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SleepAI Premium</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
-}
-
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif}
 body{
-background:#08111f;
-color:white;
+background:linear-gradient(135deg,#08111f,#101d35);
+color:#fff;
 min-height:100vh;
+padding:20px;
 }
-
-header{
-padding:20px 8%;
-display:flex;
-justify-content:space-between;
-align-items:center;
-background:#0d1728;
-border-bottom:1px solid rgba(255,255,255,.08);
+.container{max-width:1100px;margin:auto}
+.header{
+display:flex;justify-content:space-between;align-items:center;
+padding:15px 0;
 }
-
-.logo{
-font-size:28px;
-font-weight:700;
-color:#4da3ff;
+.logo{font-size:28px;font-weight:700;color:#4da3ff}
+.glass{
+background:rgba(255,255,255,.05);
+backdrop-filter:blur(12px);
+border:1px solid rgba(255,255,255,.08);
+border-radius:20px;
 }
-
 .hero{
-padding:80px 20px;
-text-align:center;
+padding:40px;
+margin-top:20px;
 }
-
-.hero h1{
-font-size:60px;
-margin-bottom:15px;
-}
-
-.hero p{
-opacity:.8;
-margin-bottom:30px;
-}
-
-.container{
-max-width:1000px;
-margin:auto;
-}
-
-.input-area{
+h1{font-size:48px;margin-bottom:10px}
+p{opacity:.85}
+.input-wrap{
 display:flex;
 gap:10px;
 flex-wrap:wrap;
-justify-content:center;
+margin-top:25px;
 }
-
 input{
-width:600px;
-max-width:100%;
-padding:16px;
+flex:1;
+min-width:250px;
+padding:15px;
 border:none;
 border-radius:12px;
-font-size:16px;
 outline:none;
 }
-
 button{
-padding:16px 25px;
+padding:15px 20px;
 border:none;
 border-radius:12px;
-background:#4da3ff;
-color:white;
 cursor:pointer;
 font-weight:600;
 }
-
-button:hover{
-opacity:.9;
+.primary{
+background:#4da3ff;
+color:white;
 }
-
-.loading{
-display:none;
-margin-top:20px;
+.secondary{
+background:#1d2a45;
+color:white;
 }
-
-.story-box{
-display:none;
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:15px;
 margin-top:30px;
-background:#101d35;
+}
+.card{
+padding:20px;
+text-align:center;
+}
+.story-box{
+margin-top:25px;
 padding:25px;
-border-radius:15px;
-text-align:left;
+display:none;
+white-space:pre-wrap;
 line-height:1.8;
 }
-
 .actions{
-margin-top:20px;
 display:flex;
 gap:10px;
 flex-wrap:wrap;
+margin-top:20px;
 }
-
-.feature{
-padding:60px 20px;
+.history{
+margin-top:25px;
+padding:20px;
 }
-
-.cards{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
+.history-item{
+padding:10px;
+border-bottom:1px solid rgba(255,255,255,.08);
+cursor:pointer;
 }
-
-.card{
-background:#101d35;
-padding:25px;
-border-radius:15px;
-text-align:center;
+.loading{
+display:none;
+margin-top:15px;
+color:#8fc3ff;
 }
-
-footer{
-text-align:center;
-padding:30px;
-margin-top:40px;
-background:#0d1728;
+.small{
+font-size:13px;
+opacity:.75;
+margin-top:10px;
 }
-
-@media(max-width:768px){
-
-.hero h1{
-font-size:38px;
-}
-
-}
-
 </style>
 </head>
 <body>
 
-<header>
-<div class="logo">🌙 SleepAI</div>
-</header>
-
-<section class="hero">
-
 <div class="container">
 
+<div class="header">
+<div class="logo">🌙 SleepAI</div>
+<button class="secondary" onclick="setApiKey()">Set API Key</button>
+</div>
+
+<div class="hero glass">
+
 <h1>AI Sleep Story Generator</h1>
+<p>Create relaxing bedtime stories using Gemini AI</p>
 
-<p>
-Generate relaxing bedtime stories instantly using Gemini AI
-</p>
-
-<div class="input-area">
-
-<input
-type="text"
-id="topic"
-placeholder="Example: Forest Adventure, Ocean Dreams"
-/>
-
-<button onclick="generateStory()">
-Generate Story
-</button>
-
+<div class="input-wrap">
+<input id="topic" placeholder="Forest Adventure, Ocean Dreams, Space Journey">
+<button class="primary" onclick="generateStory()">Generate</button>
 </div>
 
-<div class="loading" id="loading">
-Generating your sleep story...
+<div class="small">
+API Key is stored only in your browser (LocalStorage).
 </div>
 
-<div class="story-box" id="storyBox">
+<div id="loading" class="loading">
+Generating your story...
+</div>
 
-<h2>Generated Story</h2>
-
-<br>
-
+<div id="storyBox" class="story-box glass">
 <div id="storyContent"></div>
 
 <div class="actions">
-
-<button onclick="copyStory()">
-Copy Story
-</button>
-
-<button onclick="downloadStory()">
-Download TXT
-</button>
-
-<button onclick="speakStory()">
-Read Aloud
-</button>
-
+<button class="primary" onclick="copyStory()">Copy</button>
+<button class="secondary" onclick="downloadStory()">Download TXT</button>
+<button class="secondary" onclick="speakStory()">Read Aloud</button>
+</div>
 </div>
 
 </div>
 
+<div class="grid">
+<div class="card glass">🌲 Forest Sleep</div>
+<div class="card glass">🌊 Ocean Dreams</div>
+<div class="card glass">🌧 Rain Meditation</div>
+<div class="card glass">🌌 Space Journey</div>
 </div>
 
-</section>
-
-<section class="feature">
-
-<div class="container">
-
-<div class="cards">
-
-<div class="card">
-🌲<br><br>
-Forest Sleep Stories
-</div>
-
-<div class="card">
-🌊<br><br>
-Ocean Dream Journeys
-</div>
-
-<div class="card">
-🌧️<br><br>
-Rain Meditation
-</div>
-
-<div class="card">
-🌌<br><br>
-Space Adventures
+<div class="history glass">
+<h3>Story History</h3>
+<div id="historyList"></div>
 </div>
 
 </div>
-
-</div>
-
-</section>
-
-<footer>
-© 2026 SleepAI - AI Sleep Story Generator
-</footer>
 
 <script>
 
-const API_KEY = "AQ.Ab8RN6IlevwcPKarKXqC3WEVztodXliavDXm2grXPW8_eSaICw";
-
 let currentStory = "";
+
+function setApiKey(){
+const key = prompt("Enter Gemini API Key");
+if(key){
+localStorage.setItem("gemini_api_key", key);
+alert("API Key Saved");
+}
+}
 
 async function generateStory(){
 
-const topic =
-document.getElementById("topic").value.trim();
+const apiKey = localStorage.getItem("gemini_api_key");
+
+if(!apiKey){
+alert("Please set Gemini API Key first");
+return;
+}
+
+const topic = document.getElementById("topic").value.trim();
 
 if(!topic){
-alert("Please enter a topic");
+alert("Enter a topic");
 return;
 }
 
@@ -267,17 +192,17 @@ const prompt = `
 Write a calming bedtime sleep story about ${topic}.
 
 Requirements:
-- peaceful
 - relaxing
-- suitable for sleeping
-- around 1000 words
-- soft narration
+- peaceful
+- sleep friendly
+- gentle narration
+- around 700 words
 `;
 
 try{
 
 const response = await fetch(
-`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`,
+`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
 {
 method:"POST",
 headers:{
@@ -300,71 +225,113 @@ text:prompt
 const data = await response.json();
 
 currentStory =
-data.candidates?.[0]?.content?.parts?.[0]?.text
-|| "No story generated.";
+data?.candidates?.[0]?.content?.parts?.[0]?.text
+|| "No response received.";
 
-document.getElementById("storyContent")
-.innerText = currentStory;
+document.getElementById("storyContent").innerText = currentStory;
 
-document.getElementById("loading")
-.style.display="none";
+document.getElementById("loading").style.display="none";
+document.getElementById("storyBox").style.display="block";
 
-document.getElementById("storyBox")
-.style.display="block";
+saveHistory(topic,currentStory);
 
-}
-catch(error){
+}catch(err){
 
-document.getElementById("loading")
-.style.display="none";
+document.getElementById("loading").style.display="none";
+alert("Generation failed");
 
-alert("Error generating story");
-
-console.error(error);
+console.error(err);
 
 }
 
 }
 
 function copyStory(){
-
 navigator.clipboard.writeText(currentStory);
-
-alert("Story copied");
-
+alert("Copied");
 }
 
 function downloadStory(){
 
-const blob = new Blob(
-[currentStory],
-{type:"text/plain"}
-);
+const blob = new Blob([currentStory],{
+type:"text/plain"
+});
 
 const a = document.createElement("a");
 
 a.href = URL.createObjectURL(blob);
-
 a.download = "sleep-story.txt";
-
 a.click();
 
 }
 
 function speakStory(){
 
+speechSynthesis.cancel();
+
 const speech =
 new SpeechSynthesisUtterance(currentStory);
 
 speech.rate = 0.85;
-
 speech.pitch = 1;
-
-speech.volume = 1;
 
 speechSynthesis.speak(speech);
 
 }
+
+function saveHistory(topic,story){
+
+let history =
+JSON.parse(localStorage.getItem("story_history")||"[]");
+
+history.unshift({
+topic,
+story
+});
+
+history = history.slice(0,10);
+
+localStorage.setItem(
+"story_history",
+JSON.stringify(history)
+);
+
+renderHistory();
+
+}
+
+function renderHistory(){
+
+const history =
+JSON.parse(localStorage.getItem("story_history")||"[]");
+
+const box =
+document.getElementById("historyList");
+
+box.innerHTML="";
+
+history.forEach(item=>{
+
+const div =
+document.createElement("div");
+
+div.className="history-item";
+
+div.innerText=item.topic;
+
+div.onclick=()=>{
+currentStory=item.story;
+document.getElementById("storyContent").innerText=item.story;
+document.getElementById("storyBox").style.display="block";
+};
+
+box.appendChild(div);
+
+});
+
+}
+
+renderHistory();
 
 </script>
 
