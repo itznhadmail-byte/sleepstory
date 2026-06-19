@@ -3,11 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Sleep Story Generator</title>
+<title>SleepAI - AI Sleep Story Generator</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
+
 *{
 margin:0;
 padding:0;
@@ -16,21 +17,18 @@ font-family:'Poppins',sans-serif;
 }
 
 body{
-background:#0b1020;
+background:#08111f;
 color:white;
-overflow-x:hidden;
+min-height:100vh;
 }
 
 header{
+padding:20px 8%;
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:20px 8%;
-background:rgba(255,255,255,.05);
-backdrop-filter:blur(10px);
-position:sticky;
-top:0;
-z-index:1000;
+background:#0d1728;
+border-bottom:1px solid rgba(255,255,255,.08);
 }
 
 .logo{
@@ -39,86 +37,81 @@ font-weight:700;
 color:#4da3ff;
 }
 
-nav a{
-color:white;
-text-decoration:none;
-margin-left:25px;
-transition:.3s;
-}
-
-nav a:hover{
-color:#4da3ff;
-}
-
 .hero{
-min-height:90vh;
-display:flex;
-justify-content:center;
-align-items:center;
+padding:80px 20px;
 text-align:center;
-padding:40px;
-background:
-linear-gradient(rgba(11,16,32,.8),rgba(11,16,32,.8)),
-url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1400&q=80');
-background-size:cover;
-background-position:center;
-}
-
-.hero-content{
-max-width:800px;
 }
 
 .hero h1{
 font-size:60px;
-margin-bottom:20px;
-}
-
-.hero span{
-color:#4da3ff;
+margin-bottom:15px;
 }
 
 .hero p{
-font-size:18px;
 opacity:.8;
 margin-bottom:30px;
 }
 
-.input-box{
-display:flex;
-gap:10px;
-justify-content:center;
-flex-wrap:wrap;
+.container{
+max-width:1000px;
+margin:auto;
 }
 
-.input-box input{
-width:500px;
+.input-area{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+justify-content:center;
+}
+
+input{
+width:600px;
 max-width:100%;
-padding:15px;
+padding:16px;
 border:none;
 border-radius:12px;
 font-size:16px;
 outline:none;
 }
 
-.input-box button{
-padding:15px 25px;
+button{
+padding:16px 25px;
 border:none;
 border-radius:12px;
 background:#4da3ff;
 color:white;
 cursor:pointer;
-font-size:16px;
 font-weight:600;
 }
 
-.categories{
-padding:80px 8%;
-text-align:center;
+button:hover{
+opacity:.9;
 }
 
-.section-title{
-font-size:38px;
-margin-bottom:40px;
+.loading{
+display:none;
+margin-top:20px;
+}
+
+.story-box{
+display:none;
+margin-top:30px;
+background:#101d35;
+padding:25px;
+border-radius:15px;
+text-align:left;
+line-height:1.8;
+}
+
+.actions{
+margin-top:20px;
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
+
+.feature{
+padding:60px 20px;
 }
 
 .cards{
@@ -128,64 +121,17 @@ gap:20px;
 }
 
 .card{
-background:#151c35;
-padding:30px;
-border-radius:18px;
-transition:.3s;
-}
-
-.card:hover{
-transform:translateY(-10px);
-}
-
-.card h3{
-margin-top:15px;
-}
-
-.how{
-padding:80px 8%;
-text-align:center;
-background:#11182f;
-}
-
-.steps{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:25px;
-margin-top:40px;
-}
-
-.step{
-background:#151c35;
-padding:30px;
-border-radius:15px;
-}
-
-.featured{
-padding:80px 8%;
-text-align:center;
-}
-
-.story{
-background:#151c35;
+background:#101d35;
 padding:25px;
 border-radius:15px;
-margin-bottom:20px;
-}
-
-.footer{
-padding:30px;
 text-align:center;
-background:#060a15;
-margin-top:50px;
 }
 
-.result{
-margin-top:25px;
-padding:20px;
-background:#151c35;
-border-radius:12px;
-display:none;
+footer{
+text-align:center;
+padding:30px;
+margin-top:40px;
+background:#0d1728;
 }
 
 @media(max-width:768px){
@@ -194,44 +140,32 @@ display:none;
 font-size:38px;
 }
 
-.section-title{
-font-size:28px;
 }
 
-}
 </style>
 </head>
 <body>
 
 <header>
 <div class="logo">🌙 SleepAI</div>
-
-<nav>
-<a href="#">Home</a>
-<a href="#">Stories</a>
-<a href="#">Features</a>
-<a href="#">Pricing</a>
-<a href="#">Contact</a>
-</nav>
 </header>
 
 <section class="hero">
 
-<div class="hero-content">
+<div class="container">
 
-<h1>Create <span>AI Sleep Stories</span> in Seconds</h1>
+<h1>AI Sleep Story Generator</h1>
 
 <p>
-Generate relaxing bedtime stories, meditation journeys,
-and peaceful dream adventures with AI.
+Generate relaxing bedtime stories instantly using Gemini AI
 </p>
 
-<div class="input-box">
+<div class="input-area">
 
 <input
 type="text"
 id="topic"
-placeholder="Enter topic e.g. Forest Adventure"
+placeholder="Example: Forest Adventure, Ocean Dreams"
 />
 
 <button onclick="generateStory()">
@@ -240,120 +174,195 @@ Generate Story
 
 </div>
 
-<div class="result" id="result"></div>
+<div class="loading" id="loading">
+Generating your sleep story...
+</div>
+
+<div class="story-box" id="storyBox">
+
+<h2>Generated Story</h2>
+
+<br>
+
+<div id="storyContent"></div>
+
+<div class="actions">
+
+<button onclick="copyStory()">
+Copy Story
+</button>
+
+<button onclick="downloadStory()">
+Download TXT
+</button>
+
+<button onclick="speakStory()">
+Read Aloud
+</button>
+
+</div>
+
+</div>
 
 </div>
 
 </section>
 
-<section class="categories">
+<section class="feature">
 
-<h2 class="section-title">Popular Categories</h2>
+<div class="container">
 
 <div class="cards">
 
 <div class="card">
-<h1>🌲</h1>
-<h3>Forest Sleep</h3>
+🌲<br><br>
+Forest Sleep Stories
 </div>
 
 <div class="card">
-<h1>🌊</h1>
-<h3>Ocean Dreams</h3>
+🌊<br><br>
+Ocean Dream Journeys
 </div>
 
 <div class="card">
-<h1>🌧️</h1>
-<h3>Rain Sounds</h3>
+🌧️<br><br>
+Rain Meditation
 </div>
 
 <div class="card">
-<h1>🌌</h1>
-<h3>Space Journey</h3>
+🌌<br><br>
+Space Adventures
+</div>
+
 </div>
 
 </div>
 
 </section>
 
-<section class="how">
-
-<h2 class="section-title">How It Works</h2>
-
-<div class="steps">
-
-<div class="step">
-<h2>1️⃣</h2>
-<h3>Enter Topic</h3>
-</div>
-
-<div class="step">
-<h2>2️⃣</h2>
-<h3>AI Creates Story</h3>
-</div>
-
-<div class="step">
-<h2>3️⃣</h2>
-<h3>Generate Voice</h3>
-</div>
-
-<div class="step">
-<h2>4️⃣</h2>
-<h3>Download Audio</h3>
-</div>
-
-</div>
-
-</section>
-
-<section class="featured">
-
-<h2 class="section-title">Featured Stories</h2>
-
-<div class="story">
-🌙 Deep Forest Journey — 2 Hours
-</div>
-
-<div class="story">
-🌊 Ocean Relaxation — 3 Hours
-</div>
-
-<div class="story">
-🌌 Space Dream Adventure — 4 Hours
-</div>
-
-</section>
-
-<footer class="footer">
-
-<p>© 2026 SleepAI. All Rights Reserved.</p>
-
+<footer>
+© 2026 SleepAI - AI Sleep Story Generator
 </footer>
 
 <script>
 
-function generateStory(){
+const API_KEY = "AQ.Ab8RN6IlevwcPKarKXqC3WEVztodXliavDXm2grXPW8_eSaICw";
 
-let topic=document.getElementById("topic").value;
+let currentStory = "";
 
-let result=document.getElementById("result");
+async function generateStory(){
 
-if(topic==""){
+const topic =
+document.getElementById("topic").value.trim();
+
+if(!topic){
 alert("Please enter a topic");
 return;
 }
 
-result.style.display="block";
+document.getElementById("loading").style.display="block";
+document.getElementById("storyBox").style.display="none";
 
-result.innerHTML=`
-<h3>✨ Story Preview</h3>
-<br>
-<p>
-Once upon a time in a peaceful ${topic},
-the gentle wind whispered through the trees,
-guiding dreamers into a calm and relaxing sleep...
-</p>
+const prompt = `
+Write a calming bedtime sleep story about ${topic}.
+
+Requirements:
+- peaceful
+- relaxing
+- suitable for sleeping
+- around 1000 words
+- soft narration
 `;
+
+try{
+
+const response = await fetch(
+`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`,
+{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+contents:[
+{
+parts:[
+{
+text:prompt
+}
+]
+}
+]
+})
+}
+);
+
+const data = await response.json();
+
+currentStory =
+data.candidates?.[0]?.content?.parts?.[0]?.text
+|| "No story generated.";
+
+document.getElementById("storyContent")
+.innerText = currentStory;
+
+document.getElementById("loading")
+.style.display="none";
+
+document.getElementById("storyBox")
+.style.display="block";
+
+}
+catch(error){
+
+document.getElementById("loading")
+.style.display="none";
+
+alert("Error generating story");
+
+console.error(error);
+
+}
+
+}
+
+function copyStory(){
+
+navigator.clipboard.writeText(currentStory);
+
+alert("Story copied");
+
+}
+
+function downloadStory(){
+
+const blob = new Blob(
+[currentStory],
+{type:"text/plain"}
+);
+
+const a = document.createElement("a");
+
+a.href = URL.createObjectURL(blob);
+
+a.download = "sleep-story.txt";
+
+a.click();
+
+}
+
+function speakStory(){
+
+const speech =
+new SpeechSynthesisUtterance(currentStory);
+
+speech.rate = 0.85;
+
+speech.pitch = 1;
+
+speech.volume = 1;
+
+speechSynthesis.speak(speech);
 
 }
 
