@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Sleep Story Generator</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#0b1020;
+color:white;
+overflow-x:hidden;
+}
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 8%;
+background:rgba(255,255,255,.05);
+backdrop-filter:blur(10px);
+position:sticky;
+top:0;
+z-index:1000;
+}
+
+.logo{
+font-size:28px;
+font-weight:700;
+color:#4da3ff;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+margin-left:25px;
+transition:.3s;
+}
+
+nav a:hover{
+color:#4da3ff;
+}
+
+.hero{
+min-height:90vh;
+display:flex;
+justify-content:center;
+align-items:center;
+text-align:center;
+padding:40px;
+background:
+linear-gradient(rgba(11,16,32,.8),rgba(11,16,32,.8)),
+url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1400&q=80');
+background-size:cover;
+background-position:center;
+}
+
+.hero-content{
+max-width:800px;
+}
+
+.hero h1{
+font-size:60px;
+margin-bottom:20px;
+}
+
+.hero span{
+color:#4da3ff;
+}
+
+.hero p{
+font-size:18px;
+opacity:.8;
+margin-bottom:30px;
+}
+
+.input-box{
+display:flex;
+gap:10px;
+justify-content:center;
+flex-wrap:wrap;
+}
+
+.input-box input{
+width:500px;
+max-width:100%;
+padding:15px;
+border:none;
+border-radius:12px;
+font-size:16px;
+outline:none;
+}
+
+.input-box button{
+padding:15px 25px;
+border:none;
+border-radius:12px;
+background:#4da3ff;
+color:white;
+cursor:pointer;
+font-size:16px;
+font-weight:600;
+}
+
+.categories{
+padding:80px 8%;
+text-align:center;
+}
+
+.section-title{
+font-size:38px;
+margin-bottom:40px;
+}
+
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+}
+
+.card{
+background:#151c35;
+padding:30px;
+border-radius:18px;
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-10px);
+}
+
+.card h3{
+margin-top:15px;
+}
+
+.how{
+padding:80px 8%;
+text-align:center;
+background:#11182f;
+}
+
+.steps{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:25px;
+margin-top:40px;
+}
+
+.step{
+background:#151c35;
+padding:30px;
+border-radius:15px;
+}
+
+.featured{
+padding:80px 8%;
+text-align:center;
+}
+
+.story{
+background:#151c35;
+padding:25px;
+border-radius:15px;
+margin-bottom:20px;
+}
+
+.footer{
+padding:30px;
+text-align:center;
+background:#060a15;
+margin-top:50px;
+}
+
+.result{
+margin-top:25px;
+padding:20px;
+background:#151c35;
+border-radius:12px;
+display:none;
+}
+
+@media(max-width:768px){
+
+.hero h1{
+font-size:38px;
+}
+
+.section-title{
+font-size:28px;
+}
+
+}
+</style>
+</head>
+<body>
+
+<header>
+<div class="logo">🌙 SleepAI</div>
+
+<nav>
+<a href="#">Home</a>
+<a href="#">Stories</a>
+<a href="#">Features</a>
+<a href="#">Pricing</a>
+<a href="#">Contact</a>
+</nav>
+</header>
+
+<section class="hero">
+
+<div class="hero-content">
+
+<h1>Create <span>AI Sleep Stories</span> in Seconds</h1>
+
+<p>
+Generate relaxing bedtime stories, meditation journeys,
+and peaceful dream adventures with AI.
+</p>
+
+<div class="input-box">
+
+<input
+type="text"
+id="topic"
+placeholder="Enter topic e.g. Forest Adventure"
+/>
+
+<button onclick="generateStory()">
+Generate Story
+</button>
+
+</div>
+
+<div class="result" id="result"></div>
+
+</div>
+
+</section>
+
+<section class="categories">
+
+<h2 class="section-title">Popular Categories</h2>
+
+<div class="cards">
+
+<div class="card">
+<h1>🌲</h1>
+<h3>Forest Sleep</h3>
+</div>
+
+<div class="card">
+<h1>🌊</h1>
+<h3>Ocean Dreams</h3>
+</div>
+
+<div class="card">
+<h1>🌧️</h1>
+<h3>Rain Sounds</h3>
+</div>
+
+<div class="card">
+<h1>🌌</h1>
+<h3>Space Journey</h3>
+</div>
+
+</div>
+
+</section>
+
+<section class="how">
+
+<h2 class="section-title">How It Works</h2>
+
+<div class="steps">
+
+<div class="step">
+<h2>1️⃣</h2>
+<h3>Enter Topic</h3>
+</div>
+
+<div class="step">
+<h2>2️⃣</h2>
+<h3>AI Creates Story</h3>
+</div>
+
+<div class="step">
+<h2>3️⃣</h2>
+<h3>Generate Voice</h3>
+</div>
+
+<div class="step">
+<h2>4️⃣</h2>
+<h3>Download Audio</h3>
+</div>
+
+</div>
+
+</section>
+
+<section class="featured">
+
+<h2 class="section-title">Featured Stories</h2>
+
+<div class="story">
+🌙 Deep Forest Journey — 2 Hours
+</div>
+
+<div class="story">
+🌊 Ocean Relaxation — 3 Hours
+</div>
+
+<div class="story">
+🌌 Space Dream Adventure — 4 Hours
+</div>
+
+</section>
+
+<footer class="footer">
+
+<p>© 2026 SleepAI. All Rights Reserved.</p>
+
+</footer>
+
+<script>
+
+function generateStory(){
+
+let topic=document.getElementById("topic").value;
+
+let result=document.getElementById("result");
+
+if(topic==""){
+alert("Please enter a topic");
+return;
+}
+
+result.style.display="block";
+
+result.innerHTML=`
+<h3>✨ Story Preview</h3>
+<br>
+<p>
+Once upon a time in a peaceful ${topic},
+the gentle wind whispered through the trees,
+guiding dreamers into a calm and relaxing sleep...
+</p>
+`;
+
+}
+
+</script>
+
+</body>
+</html>
